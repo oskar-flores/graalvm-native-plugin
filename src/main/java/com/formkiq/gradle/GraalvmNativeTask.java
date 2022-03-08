@@ -150,11 +150,20 @@ public class GraalvmNativeTask extends DefaultTask {
   }
 
   private String getFilename() {
+    if (this.extension.getImageVersion().startsWith("22") && getJavaVersion().startsWith("java11")) {
+      return MessageFormat.format("graalvm-ce-{0}-{1}-{2}.{3}", getPlatform(),
+              getArchitecture(), this.extension.getImageVersion(), getExtension());
+    }
+
     return MessageFormat.format("graalvm-ce-{0}-{1}-{2}-{3}.{4}", getJavaVersion(), getPlatform(),
         getArchitecture(), this.extension.getImageVersion(), getExtension());
   }
 
   private String getFilenameShort() {
+    if (this.extension.getImageVersion().startsWith("22") && getJavaVersion().startsWith("java11")) {
+      return MessageFormat.format("graalvm-ce-{0}",
+              this.extension.getImageVersion());
+    }
     return MessageFormat.format("graalvm-ce-{0}-{1}", getJavaVersion(),
         this.extension.getImageVersion());
   }
